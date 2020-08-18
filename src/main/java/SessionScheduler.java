@@ -6,7 +6,6 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class SessionScheduler extends FirefoxDriver {
@@ -18,30 +17,7 @@ public class SessionScheduler extends FirefoxDriver {
         this.get("https://9855.ezfacility.com/");
     }
 
-    //Generate a hashtable with the keys following '${Day of week}; ${Time slot}; ${Slot title} and the value is the WebElement where the session is
     //**Note: This function only works in List View Mode
-    public HashMap getSessionSchedule() {
-        List<WebElement> TableRows = this.findElements(By.tagName("tr"));
-        HashMap<String, WebElement> SessionSchedule = new HashMap<>();
-
-        String currDate = "init";
-
-        for (WebElement row : TableRows
-        ) {
-            if (row.getAttribute("class").equals("fc-list-heading")) {
-                currDate = row.findElement(By.xpath("./td/span[1]")).getText();
-            } else {
-                String session_time = row.findElement(By.xpath("./td[1]")).getText();
-                String session_title = row.findElement(By.xpath("./td[3]")).getText();
-                String key = currDate + "; " + session_time + "; " + session_title;
-
-                SessionSchedule.put(key, row);
-
-            }
-        }
-        return SessionSchedule;
-    }
-
     public boolean book(List<String> bookingKeys) {
         for (String bookingKey:
              bookingKeys) {
@@ -97,7 +73,7 @@ public class SessionScheduler extends FirefoxDriver {
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"btnLogin\"]"))).click();
 
-        return true;
+        return this.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div")).isDisplayed();
     }
 
     //press on "change view" then press "List Week View"
