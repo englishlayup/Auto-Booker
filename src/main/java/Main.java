@@ -1,6 +1,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,6 +18,7 @@ public class Main {
             bookingKeys = getBookingKeys();
             username = sc.next();
             password = sc.next();
+            sc.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -25,8 +27,8 @@ public class Main {
         SessionScheduler driver = new SessionScheduler();
 
         driver.login(username, password);
-        driver.switchToWeekView();
-        driver.book(bookingKeys);
+        System.out.println(Arrays.toString(driver.book(bookingKeys)));
+        driver.close();
     }
 
     private static List<String> getBookingKeys() throws FileNotFoundException {
@@ -36,7 +38,7 @@ public class Main {
         while(sc.hasNextLine()) {
             bookingKeys.add(sc.nextLine());
         }
-
+        sc.close();
         return bookingKeys;
     }
 }

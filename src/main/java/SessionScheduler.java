@@ -1,6 +1,7 @@
 /*This class constructor encapsulates the process of opening up the website. It also have some functions to interact with the site*/
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,11 +19,15 @@ public class SessionScheduler extends FirefoxDriver {
     }
 
     //**Note: This function only works in List View Mode
-    public boolean book(List<String> bookingKeys) {
+    public boolean[] book(List<String> bookingKeys) {
+        this.switchToWeekView();
+        //an array that indicates booking key at position i is successfully booked or not
+        boolean[] isBooked = new boolean[bookingKeys.size()];
+
         for (String bookingKey:
              bookingKeys) {
 
-            wait.until(ExpectedConditions.invisibilityOf(this.findElement(By.xpath("//*[@id=\"modal-book-reservation\"]"))));
+//            wait.until(ExpectedConditions.invisibilityOf(this.findElement(By.xpath("//*[@id=\"modal-book-reservation\"]"))));
 
             try {
                 Thread.sleep(2000);
@@ -30,40 +35,52 @@ public class SessionScheduler extends FirefoxDriver {
                 e.printStackTrace();
             }
 
-            String key = "";
             String currDate = "";
+            String session_time = "";
+            String session_title = "";
             List<WebElement> TableRows = this.findElements(By.xpath("/html/body/section[2]/section/div/div[3]/div/div[2]/div/div/table/tbody/tr"));
 
             for (WebElement row : TableRows
             ) {
                 if (row.getAttribute("class").equals("fc-list-heading")) {
-                    key = currDate = row.findElement(By.xpath("./td/span[1]")).getText();
+                    currDate = row.findElement(By.xpath("./td/span[1]")).getText();
                 } else {
-                    String session_time = row.findElement(By.xpath("./td[1]")).getText();
-                    String session_title = row.findElement(By.xpath("./td[3]")).getText();
-                    key += "; " + session_time + "; " + session_title;
+                    session_time = row.findElement(By.xpath("./td[1]")).getText();
+                    session_title = row.findElement(By.xpath("./td[3]")).getText();
                 }
-                if(key.equals(bookingKey)) {
+                if(bookingKey.equals(currDate + "; " + session_time + "; " + session_title)) {
                     WebElement rowTime = row.findElement(By.xpath("./td[1]"));
                     wait.until(ExpectedConditions.elementToBeClickable(rowTime)).click();
 
                     WebElement btnBook = this.findElement(By.xpath("//*[@id=\"btnBook\"]"));
+
+                    //if btnBook is not visible, the session may be full or booked already
+                    try {
+                        wait.until(ExpectedConditions.visibilityOf(btnBook));
+                    } catch(TimeoutException e) {
+                        this.findElement(By.xpath("/html/body/section[2]/section/div/div[4]/div/div/form/div[1]/ul/li/a")).click();
+                        break;
+                    }
                     wait.until(ExpectedConditions.elementToBeClickable(btnBook)).click();
+                    isBooked[bookingKey.indexOf(bookingKey)] = true;
                     break;
                 }
-                key = currDate;
             }
         }
 
 
-        return true;
+        return isBooked;
     }
 
     public boolean login(String username, String password) {
 
         //wait for the page-loader display attribute to become "none", then click on the login
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("page-loader")));
+
+        if(!this.findElement(By.xpath("//*[@id=\"liLogin\"]")).isDisplayed()) return false;
+
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"liLogin\"]"))).click();
+
         //click on the username and then
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"Username\"]"))).click();
         this.findElement(By.xpath("//*[@id=\"Username\"]")).sendKeys(username);
@@ -73,7 +90,7 @@ public class SessionScheduler extends FirefoxDriver {
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"btnLogin\"]"))).click();
 
-        return this.findElement(By.xpath("/html/body/div[1]/div/div/div[2]/div")).isDisplayed();
+        return this.findElement(By.xpath("//*[@id=\"alertContainer\"]")).isDisplayed();
     }
 
     //press on "change view" then press "List Week View"
