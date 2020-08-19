@@ -13,18 +13,6 @@ pipeline {
             }
         }
 
-        stage ('Test') {
-
-            steps {
-                bat 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                    }
-                }
-        }
-
         stage ('Deploy') {
             steps {
                 bat 'mvn deploy'
