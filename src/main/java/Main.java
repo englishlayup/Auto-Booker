@@ -23,7 +23,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.setProperty("webdriver.gecko.driver", "./Driver/geckodriver.exe");
+//        System.setProperty("webdriver.gecko.driver", "./Driver/geckodriver.exe");
         SessionScheduler driver = new SessionScheduler();
 
         driver.login(username, password);

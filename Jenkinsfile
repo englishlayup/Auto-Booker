@@ -15,7 +15,8 @@ pipeline {
 
         stage ('Deploy') {
             steps {
-                bat 'mvn deploy -DskipTests=false'
+                bat 'mvn deploy -DaltReleaseDeploymentRepository=""gh::default::https://maven.pkg.github.com/englishlayup/COSC4427FinalProject/" -DaltSnapshotDeploymentRepository=""gh::default::https://maven.pkg.github.com/englishlayup/COSC4427FinalProject/"'
+                bat 'java -jar thatfilethatyoureceived'
             }
         }
     }
