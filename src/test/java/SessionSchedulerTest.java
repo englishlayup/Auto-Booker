@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.LinkedList;
@@ -6,7 +7,12 @@ import java.util.List;
 
 public class SessionSchedulerTest {
 
-    SessionScheduler sessionScheduler = new SessionScheduler();
+     private SessionScheduler sessionScheduler;
+
+     @Before
+     public void initSessionScheduler() {
+        sessionScheduler  = new SessionScheduler();
+     }
 
     @Test
     public void testLogin() {
@@ -28,4 +34,5 @@ public class SessionSchedulerTest {
         Assert.assertEquals(false, testResults[0]);
         Assert.assertEquals(false, testResults[1]);
     }
+
 }

@@ -1,31 +1,33 @@
 pipeline {
     agent any
 
+    tools {
+        maven '3.5.0'
+        jdk 'jdk8'
+    }
+
     stages {
-        stage ('Compile Stage') {
-
+        stage ('Build') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn clean compile'
-                }
+                sh 'mvn clean compile'
             }
         }
 
-        stage ('Testing Stage') {
+        stage ('Test') {
 
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn test'
-                }
+                sh 'mvn test'
             }
+            post {
+                always {
+                    junit 'target/surefire-reports/*.xml'
+                    }
+                }
         }
 
-
-        stage ('Deployment Stage') {
+        stage ('Deploy') {
             steps {
-                withMaven(maven : 'maven_3_5_0') {
-                    sh 'mvn deploy'
-                }
+                sh 'mvn deploy'
             }
         }
     }
