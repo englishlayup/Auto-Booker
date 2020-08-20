@@ -9,12 +9,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-
+        System.setProperty("webdriver.gecko.driver", "/home/ubuntu/COSC4427FinalProject/geckodriver");
         List<String> bookingKeys = null;
         String username = null;
         String password = null;
         try {
-            Scanner sc = new Scanner(new File("src/main/resources/Super secret stuff.txt"));
+            Scanner sc = new Scanner(new File("/home/ubuntu/COSC4427FinalProject/src/main/resources/Super secret stuff.txt"));
             bookingKeys = getBookingKeys();
             username = sc.next();
             password = sc.next();
@@ -32,7 +32,7 @@ public class Main {
     }
 
     private static List<String> getBookingKeys() throws FileNotFoundException {
-        Scanner sc = new Scanner(new File("src/main/resources/BookingKeys.txt"));
+        Scanner sc = new Scanner(new File("/home/ubuntu/COSC4427FinalProject/src/main/resources/BookingKeys.txt"));
         List<String> bookingKeys = new LinkedList<>();
 
         while(sc.hasNextLine()) {
