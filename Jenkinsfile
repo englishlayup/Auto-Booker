@@ -15,6 +15,7 @@ pipeline {
 
         stage ('Deploy') {
             steps {
+                bat 'scp ubuntu@52.1.75.25'
                 bat 'mvn deploy'
             }
         }
