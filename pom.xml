@@ -12,7 +12,7 @@
     <distributionManagement>
         <repository>
             <id>EC2</id>
-            <url>scpexe://ec2-52-1-75-25.compute-1.amazonaws.com</url>
+            <url>scpexe://ec2-52-1-75-25.compute-1.amazonaws.com:22</url>
         </repository>
     </distributionManagement>
 
