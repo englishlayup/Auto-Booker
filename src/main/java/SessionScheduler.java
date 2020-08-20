@@ -104,9 +104,11 @@ public class SessionScheduler extends FirefoxDriver {
 
     //press on "change view" then press "List Week View"
     public void switchToWeekView() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("modal-login")));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("modal-backdrop fade")));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("/html/body/div[3]")));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/section[2]/section/div/div[3]/div/div[1]/div[2]/ul/li[2]/button"))).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("/html/body/section[2]/section/div/div[3]/div/div[1]/div[2]/ul/li[2]/ul/li[6]/a"))).click();
     }
