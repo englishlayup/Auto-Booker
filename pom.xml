@@ -88,20 +88,6 @@
         </dependency>
     </dependencies>
 
-    <settings>
-        <servers>
-            <server>
-                <id>EC2</id>
-                <username>ubuntu</username>
-                <privateKey>C:\Jenkins\ubuntu-ec2-key.ppk</privateKey>
-                <configuration>
-                    <sshExecutable>C:\Program Files\PuTTY\plink</sshExecutable>
-                    <scpExecutable>C:\Program Files\PuTTY\pscp</scpExecutable>
-                </configuration>
-            </server>
-        </servers>
-    </settings>
-
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
