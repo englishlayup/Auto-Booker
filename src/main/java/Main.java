@@ -1,4 +1,6 @@
 
+import org.openqa.selenium.firefox.FirefoxOptions;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -24,7 +26,9 @@ public class Main {
         }
 
 //        System.setProperty("webdriver.gecko.driver", "./Driver/geckodriver.exe");
-        SessionScheduler driver = new SessionScheduler();
+        FirefoxOptions options = new FirefoxOptions();
+        options.setHeadless(true);
+        SessionScheduler driver = new SessionScheduler(options);
 
         driver.login(username, password);
         System.out.println(Arrays.toString(driver.book(bookingKeys)));

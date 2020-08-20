@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,8 +13,16 @@ import java.util.List;
 public class SessionScheduler extends FirefoxDriver {
     WebDriverWait wait;
 
+    //Default constructor
     public SessionScheduler() {
         super();
+        wait = new WebDriverWait(this, 5);
+        this.get("https://9855.ezfacility.com/");
+    }
+
+    //Constructor to run webdriver with options (headless, etc...)
+    public SessionScheduler(FirefoxOptions options) {
+        super(options);
         wait = new WebDriverWait(this, 5);
         this.get("https://9855.ezfacility.com/");
     }
